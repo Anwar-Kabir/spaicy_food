@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/route_manager.dart';
 import 'package:spaicy_food/admin/admin_slider.dart';
+import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
+import 'package:spaicy_food/signin_signup/firebase_reg.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);
@@ -16,18 +19,76 @@ class _AdminLoginState extends State<AdminLogin> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   late String password;
+  late String email;
   bool _isObscure = true;
+
+
+
+  adminsignin(String email, String password) async {
+    try {
+      UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      print("..........sign in success......");
+
+      if (userCredential.user!.emailVerified == false) {
+        User? user = FirebaseAuth.instance.currentUser;
+        // await user!.sendEmailVerification();
+        Get.snackbar(
+          "hitaishi-food",
+          "Email Verification Fail. Please Verify your Email",
+          // icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        );
+      } else {
+        Get.off(Home());
+        Get.snackbar(
+          "hitaishi-food",
+          "Admin sign in successfull.",
+          // icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        Get.snackbar(
+          "hitaishi-food",
+          "No user found for that email.",
+          // icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        );
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+        Get.snackbar(
+          "hitaishi-food",
+          "Wrong password provided for that user.",
+          //icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        );
+      }
+    }
+  }
+
+
 
   void validate() {
     if (formkey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Admin Sign in Successful'),
-        backgroundColor: Colors.green,
-      ));
-      Get.off(const AdminSlider());
+      adminsignin(email, password);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Failed. Admin Sign in unsuccessful'),
+        content: Text('Failed. Sign in unsuccessful'),
         backgroundColor: Colors.red,
       ));
     }
@@ -62,6 +123,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   height: 10.0,
                 ),
                 TextFormField(
+                  onChanged: (value) => email = value,
                   validator: MultiValidator([
                     RequiredValidator(errorText: "Required"),
                     EmailValidator(errorText: "Not A Valid Email"),
@@ -113,27 +175,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                RichText(
-                  text: TextSpan(
-                      text: 'Fotget password?',
-                      style:
-                      const TextStyle(color: Colors.black, fontSize: 18),
-                      children: [
-                        TextSpan(
-                            text: ' Click here',
-                            style: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 18,
-                              wordSpacing: 2.0,
-                              letterSpacing: 2.0,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushNamed(
-                                    context, '/forgetpassword');
-                              })
-                      ]),
-                ),
+
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .03,
                 ),

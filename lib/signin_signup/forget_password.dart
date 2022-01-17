@@ -12,22 +12,21 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
-
   TextEditingController email = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  void validate() {
+  /*void validate() {
     if (formkey.currentState!.validate()) {
       //signin(email, password);
       FirebaseAuth.instance.sendPasswordResetEmail(email: email.text).then((value) =>
           Get.to( const Signin()));
       Get.snackbar(
         "hitaishi-food",
-        "reset password was send your Email",
+        "reset password was send your Email. Now Sign in with new password",
         // icon: Icon(Icons.person, color: Colors.red),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 6),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -35,21 +34,56 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         backgroundColor: Colors.red,
       ));
     }
+  }*/
 
+  /*await auth.sendPasswordResetEmail(email: email.text).then((value) =>
+          Get.to( const Signin()));
+      Get.snackbar(
+        "hitaishi-food",
+        "reset password was send your Email. Now Sign in with new password",
+        // icon: Icon(Icons.person, color: Colors.red),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 6),
+      );*/
 
+  FirebaseAuth auth = FirebaseAuth.instance;
 
-  }
-
-
-  String? validatepass(value) {
-    if (value!.isEmpty) {
-      return "Required";
-    } else if (value.length < 6) {
-      return ("Should be at least 6 characters");
-    } else if (value.length > 15) {
-      return ("Shouldn't more then 10 characters");
-    } else {
-      return null;
+  void forget() async {
+    try {
+      if (formkey.currentState!.validate()) {
+        await auth
+            .sendPasswordResetEmail(email: email.text)
+            .then((value) => Get.to(const Signin()));
+        Get.snackbar(
+          "hitaishi-food",
+          "reset password was send your Email. Now Sign in with new password",
+          // icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 6),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Failed. reset password'),
+          backgroundColor: Colors.red,
+        ));
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+        Get.snackbar(
+          "hitaishi-food",
+          "No user found for that email.",
+          // icon: Icon(Icons.person, color: Colors.red),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        );
+      }
+      print(e.code);
+      print(e.message);
+// show the snackbar here
     }
   }
 
@@ -70,7 +104,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             Form(
               key: formkey,
               child: TextFormField(
-                //onChanged: (value) => email = value as TextEditingController,
+                onChanged: (value) => email = value as TextEditingController,
                 //validator: validatepass,
                 validator: MultiValidator([
                   RequiredValidator(errorText: "Required"),
@@ -87,10 +121,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             SizedBox(
               height: MediaQuery.of(context).size.height * .03,
             ),
-            ElevatedButton(
-                onPressed: validate,
-
-              child: const Text('get recover'))
+            ElevatedButton(onPressed: forget, child: const Text('get recover'))
           ],
         ),
       ),
