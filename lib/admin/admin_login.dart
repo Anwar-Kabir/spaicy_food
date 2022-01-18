@@ -1,13 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/route_manager.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spaicy_food/admin/admin_slider.dart';
 import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
-import 'package:spaicy_food/signin_signup/firebase_reg.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);
@@ -23,13 +18,10 @@ class _AdminLoginState extends State<AdminLogin> {
   late String email;
   bool _isObscure = true;
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-
   @override
   void initState() {
     super.initState();
-
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         print('User is currently signed out!');
         Get.off(AdminLogin());

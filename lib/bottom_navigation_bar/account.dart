@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:spaicy_food/signin_signup/signin.dart';
 
 class Account extends StatefulWidget {
@@ -12,38 +13,57 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
- /* @override
-  void initState() {
-    super.initState();
-
-    if(_auth.currentUser!() != null){
-
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Account()
-      ));
-    }
-
-  }*/
 
 
 
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Get.to(Signin());
+    Get.snackbar(
+      "hitaishi-food",
+      "User Sign out Successful",
+      // icon: Icon(Icons.person, color: Colors.red),
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 3),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();/*FutureBuilder<FirebaseUser>(
-        future: _auth.currentUser(),
-        builder: (BuildContext context, AsyncSnapshot<FirebaseUser> snapshot){
-          if (snapshot.hasData){
-            FirebaseUser user = snapshot.data; // this is your user instance
-            /// is because there is user already logged
-            return Account();
-          }
-          /// other way there is no user logged.
-          return Signin();
-        }
-    );*/
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text("No Account")),
+          SizedBox(
+            height: 10,
+          ),
+          Center(
+            child: ElevatedButton(
+                onPressed: () {
+                  Get.off(Signin());
+                },
+                child: Text("Sign in or Sign up")),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          //Text('admin email: ${FirebaseAuth.instance.currentUser!.email}'),
+
+          Center(
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red, // background
+                  onPrimary: Colors.yellow, // foreground
+                ),
+                onPressed: () {
+                  signOut();
+                },
+                child: Text("Sign out")),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -24,6 +24,22 @@ class _SigninState extends State<Signin> {
   bool _isObscure = true;
 
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Get.off(Signin());
+      } else {
+        print('User is signed in!');
+        Get.off(MyHomePage());
+      }
+    });
+  }
+
+
   void validate() {
     if (formkey.currentState!.validate()) {
       signin(email, password);
@@ -50,9 +66,9 @@ class _SigninState extends State<Signin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
+      appBar: AppBar(
         title: const Text("Sign In"),
-      ),*/
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

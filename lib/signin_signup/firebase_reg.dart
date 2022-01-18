@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
+import 'package:spaicy_food/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/my_home_page.dart';
 import 'package:spaicy_food/signin_signup/signin.dart';
 
@@ -62,6 +64,16 @@ signin(String email, String password) async {
 
     print("..........sign in success......");
 
+   /* FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Get.off(Signin());
+      } else {
+        print('User is signed in!');
+        Get.off(MyHomePage());
+      }
+    });*/
+
     if (userCredential.user!.emailVerified == false) {
       User? user = FirebaseAuth.instance.currentUser;
       // await user!.sendEmailVerification();
@@ -108,7 +120,3 @@ signin(String email, String password) async {
     }
   }
 }
-
-
-
-
