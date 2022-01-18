@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:spaicy_food/admin/admin_login.dart';
+import 'package:spaicy_food/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/bottom_navigation_bar/bottom_home.dart';
 import 'package:spaicy_food/bottom_navigation_bar/favorite.dart';
 import 'package:spaicy_food/bottom_navigation_bar/order.dart';
@@ -22,7 +23,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const Favorite(),
     const Treding(),
     const Order(),
-    const Signin()
+    const Account()
   ];
 
   @override
@@ -51,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               IconButton(
                 onPressed: () {
-                  Get.to(const AdminLogin());
+                  Get.off(const AdminLogin());
                 },
                 icon: const Icon(Icons.account_box),
               ),

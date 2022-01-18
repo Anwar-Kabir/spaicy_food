@@ -3,9 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/route_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spaicy_food/admin/admin_slider.dart';
 import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
 import 'package:spaicy_food/signin_signup/firebase_reg.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({Key? key}) : super(key: key);
@@ -15,22 +17,37 @@ class AdminLogin extends StatefulWidget {
 }
 
 class _AdminLoginState extends State<AdminLogin> {
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   late String password;
   late String email;
   bool _isObscure = true;
 
+  FirebaseAuth auth = FirebaseAuth.instance;
 
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Get.off(AdminLogin());
+      } else {
+        print('User is signed in!');
+        Get.off(Home());
+      }
+    });
+  }
 
   adminsignin(String email, String password) async {
     try {
       UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      print(userCredential.user!.uid);
 
       print("..........sign in success......");
 
@@ -80,8 +97,6 @@ class _AdminLoginState extends State<AdminLogin> {
       }
     }
   }
-
-
 
   void validate() {
     if (formkey.currentState!.validate()) {
@@ -175,15 +190,12 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 10.0,
                 ),
-
                 SizedBox(
                   height: MediaQuery.of(context).size.height * .03,
                 ),
-
               ],
             )),
       ),
-
     );
   }
 }
