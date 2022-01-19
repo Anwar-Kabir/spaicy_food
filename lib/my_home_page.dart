@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:spaicy_food/admin/admin_login.dart';
+import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
 import 'package:spaicy_food/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/bottom_navigation_bar/bottom_home.dart';
 import 'package:spaicy_food/bottom_navigation_bar/favorite.dart';
@@ -53,7 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               IconButton(
                 onPressed: () {
-                  Get.off(const AdminLogin());
+                  Get.off( Home());
+
                 },
                 icon: const Icon(Icons.account_box),
               ),

@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:spaicy_food/my_home_page.dart';
 import 'package:spaicy_food/signin_signup/signin.dart';
 
 class Account extends StatefulWidget {
@@ -12,13 +14,27 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  bool currentuser = false;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Get.off(Signin());
+      } else {
+        print('User is signed in!');
+        Get.off(MyHomePage());
+      }
+    });
+  }
 
 
 
   signOut() async {
     await FirebaseAuth.instance.signOut();
-    Get.to(Signin());
+    Get.off(MyHomePage());
     Get.snackbar(
       "hitaishi-food",
       "User Sign out Successful",
@@ -35,21 +51,18 @@ class _AccountState extends State<Account> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(child: Text("No Account")),
+          // Center(child: Text("No Account")),
           SizedBox(
             height: 10,
-          ),
-          Center(
-            child: ElevatedButton(
-                onPressed: () {
-                  Get.off(Signin());
-                },
-                child: Text("Sign in or Sign up")),
           ),
           SizedBox(
             height: 10,
           ),
-          //Text('admin email: ${FirebaseAuth.instance.currentUser!.email}'),
+          //Text('User email: ${FirebaseAuth.instance.currentUser!.email}'),
+
+          SizedBox(
+            height: 10,
+          ),
 
           Center(
             child: ElevatedButton(

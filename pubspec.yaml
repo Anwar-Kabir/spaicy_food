@@ -46,6 +46,7 @@ dependencies:
   flutter_animation_progress_bar: ^2.0.1
   shared_preferences: ^2.0.12
   http: ^0.13.4
+  path:
 
 
 dev_dependencies:
