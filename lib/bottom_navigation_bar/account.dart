@@ -75,6 +75,17 @@ class _AccountState extends State<Account> {
                 },
                 child: Text("Sign out")),
           ),
+
+
+          IconButton(
+              icon: Icon(Icons.lightbulb),
+              onPressed: () {
+                Get.isDarkMode
+                    ? Get.changeTheme(ThemeData.light())
+                    : Get.changeTheme(ThemeData.dark());
+              })
+
+
         ],
       ),
     );

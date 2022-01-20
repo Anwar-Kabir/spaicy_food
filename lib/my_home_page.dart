@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:spaicy_food/admin/admin_login.dart';
 import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
 import 'package:spaicy_food/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/bottom_navigation_bar/bottom_home.dart';
 import 'package:spaicy_food/bottom_navigation_bar/favorite.dart';
 import 'package:spaicy_food/bottom_navigation_bar/order.dart';
 import 'package:spaicy_food/bottom_navigation_bar/treding.dart';
+import 'package:spaicy_food/search.dart';
 import 'package:spaicy_food/signin_signup/signin.dart';
 
 
@@ -43,14 +43,39 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: [
 
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to( HomePage());
+                },
                 icon: const Icon(Icons.search),
               ),
               IconButton(
                   onPressed: () {}, icon: const Icon(Icons.message_outlined)),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(Icons.notifications),
+                //icon: const Icon(Icons.notifications),
+                icon: Stack(
+                  children: <Widget>[
+                    new Icon(
+                      Icons.notifications,
+                      size: 25.5,
+                    ),
+                    Positioned(
+                      right: -1.0,
+                      top: -1.0,
+                      child: Stack(
+                        children: <Widget>[
+                          Icon(
+                            Icons.brightness_1,
+                            size: 12.0,
+                            color: Colors.red,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                
+
               ),
               IconButton(
                 onPressed: () {
