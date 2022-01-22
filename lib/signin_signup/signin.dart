@@ -17,6 +17,7 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   late String password;
@@ -187,17 +188,14 @@ class _SigninState extends State<Signin> {
                               ),
                               RichText(
                                 text: TextSpan(
-                                    text: 'Fotget password?',
+                                    text: 'Forget password?',
                                     style: const TextStyle(
-                                        color: Colors.black, fontSize: 18),
+                                        color: Colors.black,),
                                     children: [
                                       TextSpan(
                                           text: ' Click here',
                                           style: const TextStyle(
                                             color: Colors.blue,
-                                            fontSize: 18,
-                                            wordSpacing: 2.0,
-                                            letterSpacing: 2.0,
                                           ),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
@@ -212,12 +210,9 @@ class _SigninState extends State<Signin> {
                                   text: 'don\'t have an account?',
                                   children: [
                                     TextSpan(
-                                        text: 'Sign up',
+                                        text: ' Sign up',
                                         style: const TextStyle(
                                           color: Colors.blue,
-                                          fontSize: 18,
-                                          letterSpacing: 2.0,
-                                          wordSpacing: 2.0,
                                         ),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
@@ -242,180 +237,4 @@ class _SigninState extends State<Signin> {
   }
 }
 
-/*
-return SafeArea(
-      child: Scaffold(
-        */ /*appBar: AppBar(
-          title: const Text("Sign In"),
-        ),*/ /*
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-                key: formkey,
-                child: Column(
-                  children: [
 
-
-                    Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: small ? MediaQuery.of(context).size.width * 0.28 : 500,
-                          alignment: Alignment.center,
-
-
-
-
-                          child: InkWell(
-                            child: Container(
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Icon(Icons.close),
-
-                              ),
-
-                            ),
-                            onTap: (){
-                              Get.off(MyHomePage());
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: const Text('Welcome,',style: TextStyle(color: Colors.black,
-                      fontWeight: FontWeight.bold),),
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: const Text('Sign in to continue!',style: TextStyle(color: Colors.black45),)),
-                    const SizedBox(
-                      height: 50.0,
-                    ),
-                    TextFormField(
-                      onChanged: (value) => email = value,
-                      validator: MultiValidator([
-                        RequiredValidator(errorText: "Required"),
-                        EmailValidator(errorText: "Not A Valid Email"),
-                      ]),
-                      decoration: const InputDecoration(
-                          label: Text('Email'),
-                          hintText: 'abc@gmail.com',
-                          border: OutlineInputBorder()),
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    TextFormField(
-                      onChanged: (value) => password = value,
-                      controller: _pass,
-                      keyboardType: TextInputType.text,
-                      obscureText: _isObscure,
-                      validator: validatepass,
-                      decoration: InputDecoration(
-                        label: const Text('Enter your password'),
-                        hintText: "24688642",
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                            icon: Icon(_isObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off),
-                            onPressed: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            }),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    ElevatedButton(
-                      onPressed: validate,
-                      child: const Text(
-                        'Sign in',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                          text: 'Fotget password?',
-                          style:
-                              const TextStyle(color: Colors.black, fontSize: 18),
-                          children: [
-                            TextSpan(
-                                text: ' Click here',
-                                style: const TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 18,
-                                  wordSpacing: 2.0,
-                                  letterSpacing: 2.0,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    */ /*Navigator.pushNamed(
-                                        context, '/forgetpassword');*/ /*
-                                    Get.to(ForgetPassword());
-                                  })
-                          ]),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .03,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black),
-                        text: 'don\'t have an account?',
-                        children: [
-                          TextSpan(
-                              text: 'Sign up',
-                              style: const TextStyle(
-                                color: Colors.blue,
-                                fontSize: 18,
-                                letterSpacing: 2.0,
-                                wordSpacing: 2.0,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Signup()));
-                                })
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .03,
-                    ),
-                  ],
-                )),
-          ),
-        ),
-      ),
-    );
-     }
-}
-
-
-
- */

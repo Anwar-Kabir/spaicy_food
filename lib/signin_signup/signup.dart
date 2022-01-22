@@ -5,6 +5,7 @@ import 'package:get/route_manager.dart';
 import 'package:spaicy_food/my_home_page.dart';
 import 'package:spaicy_food/signin_signup/firebase_reg.dart';
 import 'package:spaicy_food/signin_signup/signin.dart';
+import 'package:spaicy_food/signin_signup/terms_conditions.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _SignupState extends State<Signup> {
   late String email;
   bool _isObscure = true;
   bool _isObscureConfirm = true;
+  bool agree = false;
 
   void validate() {
     if (formkey.currentState!.validate()) {
@@ -60,7 +62,7 @@ class _SignupState extends State<Signup> {
                 width: small
                     ? MediaQuery.of(context).size.width * 0.72
                     : extraSmall
-                        ? MediaQuery.of(context).size.width - 500
+                        ? MediaQuery.of(context).size.width - 400
                         : 0.0,
                 color: Colors.indigo[200],
                 child: Image.network(
@@ -186,8 +188,57 @@ class _SignupState extends State<Signup> {
                             const SizedBox(
                               height: 10.0,
                             ),
+
+
+                            Row(
+                              children: [
+                                Material(
+                                  child: Checkbox(
+                                    value: agree,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        agree = value ?? false;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                /*const Text(
+                                  'I have read and accept terms and conditions',
+                                  overflow: TextOverflow.ellipsis,
+                                )*/
+                                RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(color: Colors.black,
+                                      overflow: TextOverflow.ellipsis,),
+                                    text: 'I have read and accept',
+
+                                    children: [
+                                      TextSpan(
+                                          text: ' terms and conditions',
+                                          style: const TextStyle(
+                                            color: Colors.blue,
+                                            /*fontSize: 18,
+                                            letterSpacing: 2.0,
+                                            wordSpacing: 2.0,*/
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const TermsConditions()));
+                                            })
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+
+
+
                             ElevatedButton(
-                              onPressed: validate,
+                              onPressed: agree ? validate : null,
                               child: const Text(
                                 'Sign up',
                                 style: TextStyle(

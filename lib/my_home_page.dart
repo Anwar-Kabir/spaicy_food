@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:spaicy_food/admin/fmc_noti.dart';
 import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
 import 'package:spaicy_food/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/bottom_navigation_bar/bottom_home.dart';
@@ -7,7 +8,9 @@ import 'package:spaicy_food/bottom_navigation_bar/favorite.dart';
 import 'package:spaicy_food/bottom_navigation_bar/order.dart';
 import 'package:spaicy_food/bottom_navigation_bar/treding.dart';
 import 'package:spaicy_food/search.dart';
+import 'package:spaicy_food/signin_signup/contact_us.dart';
 import 'package:spaicy_food/signin_signup/signin.dart';
+import 'package:spaicy_food/admin/firebase_notification.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -49,10 +52,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.search),
               ),
               IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.message_outlined)),
+                  onPressed: () {
+                    Get.to(ContactUs());
+                  }, icon: const Icon(Icons.message_outlined)),
               IconButton(
-                onPressed: () {},
-                //icon: const Icon(Icons.notifications),
+                onPressed: () {
+                  Get.to(FMCNoti());
+                },
                 icon: Stack(
                   children: <Widget>[
                     new Icon(
