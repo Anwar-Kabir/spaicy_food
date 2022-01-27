@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/route_manager.dart';
-import 'package:spaicy_food/my_home_page.dart';
-import 'package:spaicy_food/signin_signup/signin.dart';
+import 'package:spaicy_food/view/my_home_page.dart';
+import 'package:spaicy_food/view/signin_signup/signin.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Account extends StatefulWidget {
@@ -16,7 +16,8 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
   bool nightmood = false;
-  late bool _isLoading;
+
+  bool loading = false;
 
   @override
   void initState() {
@@ -56,8 +57,13 @@ class _AccountState extends State<Account> {
     await Future.delayed(Duration(seconds: 5), () {
       print(" This line is execute after 3 seconds");
       CircularProgressIndicator();
+      setState(() {
+        loading = true;
+      });
     });
   }
+
+
 
   signOut() async {
     await FirebaseAuth.instance.signOut();
@@ -74,25 +80,48 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    //return  Center(child: CircularProgressIndicator());
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Center(child: Text("No Account")),
+
+          /* FutureBuilder(
+              future: delaymm(),
+              builder: (context, snapshot) {
+              if (loading == false) {
+              return CircularProgressIndicator();
+              } else {
+              if (snapshot.hasData == false) {
+              return CircularProgressIndicator();
+              } else {
+              return Expanded(
+              child: Container()
+              );
+              }
+              }
+              });*/
+
+         /* Container(
+            child: loading ? delay() : logincheck(),
+
+          ),*/
+
+          Container(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.grey,
+              color: Colors.purple,
+              strokeWidth: 10,
+            ),
+          ),
+
           SizedBox(
             height: 30,
           ),
 
-          Text('User email: ${FirebaseAuth.instance.currentUser!.email}'),
-
-          /*Container(
-            margin: EdgeInsets.all(20),
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.grey,
-              color: Colors.purple,
-              strokeWidth: 5,
-            ),
-          ),*/
+          //Text('User email: ${FirebaseAuth.instance.currentUser!.email}'),
 
           Row(
             children: [

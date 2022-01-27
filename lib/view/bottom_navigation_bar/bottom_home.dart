@@ -4,8 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:spaicy_food/category.dart';
-import 'package:spaicy_food/product_show.dart';
+import 'package:get/route_manager.dart';
+import 'package:spaicy_food/view/category/category.dart';
+import 'package:spaicy_food/view/chip_trending.dart';
+import 'package:spaicy_food/view/product/product_show.dart';
 
 class BottomHome extends StatefulWidget {
   const BottomHome({Key? key}) : super(key: key);
@@ -81,18 +83,21 @@ class _BottomHomeState extends State<BottomHome> {
                   children: List.generate(
                     chip.length,
                     (item) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ChoiceChip(
-                          selected: _selectedIndex == item,
-                          label: Text(chip[item]),
-                          onSelected: (selected) {
-                            if (selected) {
-                              setState(() {
-                                _selectedIndex = item;
-                              });
-                            }
-                          },
+                      return Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ChoiceChip(
+                            selected: _selectedIndex == item,
+                            label: Text(chip[item]),
+                            onSelected: (selected) {
+                              if (selected) {
+                                setState(() {
+                                  _selectedIndex = item;
+                                  Get.to(ChipTrending());
+                                });
+                              }
+                            },
+                          ),
                         ),
                       );
                     },
@@ -133,12 +138,13 @@ class _BottomHomeState extends State<BottomHome> {
                   },
                 ),
               ),
-
-
               Container(
-                height: 80,
-                  child: Expanded(child: Category())),
-
+                  height: 80,
+                  child: Column(
+                    children: [
+                      Expanded(child: Category()),
+                    ],
+                  )),
 
               /*CarouselSlider(
                 items: imageSliders,
@@ -208,8 +214,11 @@ class _BottomHomeState extends State<BottomHome> {
               ),
               Container(
                   height: 210,
-                  child: Expanded(child: ProductShow())),
-
+                  child: Column(
+                    children: [
+                      Expanded(child: ProductShow()),
+                    ],
+                  )),
               SizedBox(
                 height: 10,
               )

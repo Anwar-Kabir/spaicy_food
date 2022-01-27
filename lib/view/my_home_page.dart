@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:spaicy_food/admin/fmc_noti.dart';
 import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
-import 'package:spaicy_food/bottom_navigation_bar/account.dart';
-import 'package:spaicy_food/bottom_navigation_bar/bottom_home.dart';
-import 'package:spaicy_food/bottom_navigation_bar/favorite.dart';
-import 'package:spaicy_food/bottom_navigation_bar/order.dart';
-import 'package:spaicy_food/bottom_navigation_bar/treding.dart';
-import 'package:spaicy_food/search.dart';
-import 'package:spaicy_food/signin_signup/contact_us.dart';
-import 'package:spaicy_food/signin_signup/signin.dart';
+import 'package:spaicy_food/view/search.dart';
 import 'package:spaicy_food/admin/firebase_notification.dart';
+import 'package:spaicy_food/view/bottom_navigation_bar/account.dart';
+import 'package:spaicy_food/view/bottom_navigation_bar/bottom_home.dart';
+import 'package:spaicy_food/view/bottom_navigation_bar/favorite.dart';
+import 'package:spaicy_food/view/bottom_navigation_bar/order.dart';
+import 'package:spaicy_food/view/bottom_navigation_bar/treding.dart';
+import 'package:spaicy_food/view/contact_us.dart';
 
 
 class MyHomePage extends StatefulWidget {

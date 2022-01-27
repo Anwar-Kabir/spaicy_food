@@ -3,10 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/route_manager.dart';
-import 'package:spaicy_food/my_home_page.dart';
-import 'package:spaicy_food/signin_signup/firebase_reg.dart';
-import 'package:spaicy_food/signin_signup/forget_password.dart';
-import 'package:spaicy_food/signin_signup/signup.dart';
+import 'package:spaicy_food/view/my_home_page.dart';
+import 'package:spaicy_food/view/signin_signup/firebase_reg.dart';
+import 'package:spaicy_food/view/signin_signup/forget_password.dart';
+import 'package:spaicy_food/view/signin_signup/signup.dart';
+
 
 class Signin extends StatefulWidget {
   const Signin({Key? key}) : super(key: key);
