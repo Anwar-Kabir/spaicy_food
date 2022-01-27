@@ -2,7 +2,10 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:spaicy_food/category.dart';
+import 'package:spaicy_food/product_show.dart';
 
 class BottomHome extends StatefulWidget {
   const BottomHome({Key? key}) : super(key: key);
@@ -12,144 +15,207 @@ class BottomHome extends StatefulWidget {
 }
 
 class _BottomHomeState extends State<BottomHome> {
+  int _selectedIndex = 0;
 
-  Future getsliderfromfirebase () async{
-    var collection = FirebaseFirestore.instance.collection('slider');
-    var docSnapshot = await collection.doc('doc_id').get();
-    if (docSnapshot.exists) {
-      Map<String, dynamic>? data = docSnapshot.data();
-      var value = data?['image']; // <-- The value you want to retrieve.
-      // Call setState if needed.
-    }
-  }
-
-
-
-  final imageData = [
-    'assets/images/slider/slider.png',
-    'assets/images/slider/slider.png',
-    'assets/images/slider/slider.png',
-    'assets/images/slider/slider.png',
-    'assets/images/slider/slider.png'
+  List<String> chip = [
+    'Kids',
+    'Woman',
+    'Man',
+    'Home',
+    'Education',
+    'Food',
+    'Deshi Product'
   ];
 
-  int _current = 0;
   final CarouselController _controller = CarouselController();
-  final imgList = [1, 2, 3, 4, 5];
+
+  FirebaseStorage storage = FirebaseStorage.instance;
+
+  Future<List<Map<String, dynamic>>> _loadImages() async {
+    List<Map<String, dynamic>> files = [];
+
+    final ListResult result = await storage.ref().list();
+    final List<Reference> allFiles = result.items;
+
+    await Future.forEach<Reference>(allFiles, (file) async {
+      final String fileUrl = await file.getDownloadURL();
+      final FullMetadata fileMeta = await file.getMetadata();
+      files.add({
+        "url": fileUrl,
+        "path": file.fullPath,
+      });
+    });
+
+    return files;
+  }
+
+  Future<List<Map<String, dynamic>>> _loadcategory() async {
+    List<Map<String, dynamic>> files = [];
+
+    final ListResult result = await storage.ref().list();
+    final List<Reference> allFiles = result.items;
+
+    await Future.forEach<Reference>(allFiles, (file) async {
+      final String fileUrl = await file.getDownloadURL();
+      final FullMetadata fileMeta = await file.getMetadata();
+      files.add({
+        "url": fileUrl,
+        "path": file.fullPath,
+        "uploaded_by": fileMeta.customMetadata?['uploaded_by'] ?? 'Nobody',
+      });
+    });
+
+    return files;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          //Padding(padding: EdgeInsets.all(16.0),),
-          //CarouselSlider(items: items, options: options)
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    chip.length,
+                    (item) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ChoiceChip(
+                          selected: _selectedIndex == item,
+                          label: Text(chip[item]),
+                          onSelected: (selected) {
+                            if (selected) {
+                              setState(() {
+                                _selectedIndex = item;
+                              });
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.30,
+                width: MediaQuery.of(context).size.width,
+                child: FutureBuilder(
+                  future: _loadImages(),
+                  builder: (context,
+                      AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final Map<String, dynamic> image =
+                              snapshot.data![index];
 
-
-
-         /* FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-            future: collection.doc('doc_id').get(),
-            builder: (_, snapshot) {
-              if (snapshot.hasError) return Text ('Error = ${snapshot.error}');
-
-              if (snapshot.hasData) {
-                var data = snapshot.data!.data();
-                var value = data!['image']; // <-- Your value
-                return Text('Value = $value');
-              }
-
-              return Center(child: CircularProgressIndicator());
-            },
-          ),*/
-
-
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CarouselSlider(
-              options: CarouselOptions(
-                  height: 100.0,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      _current = index;
-                    });
-                  }),
-              items: [1, 2, 3, 4, 5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(12),
-                        image: const DecorationImage(
-                            image: AssetImage(
-                              'assets/images/slider/slider.png',
+                          return Container(
+                            // dense: false,
+                            height: MediaQuery.of(context).size.height * 0.30,
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Image.network(image['url']),
                             ),
-                            fit: BoxFit.cover),
-                      ),
+                          );
+                        },
+                      );
+                    }
+
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   },
-                );
-              }).toList(),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
-                child: Container(
-                  width: 12.0,
-                  height: 12.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 4.0),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: (Theme.of(context).brightness == Brightness.dark
+                ),
+              ),
+
+
+              Container(
+                height: 80,
+                  child: Expanded(child: Category())),
+
+
+              /*CarouselSlider(
+                items: imageSliders,
+                carouselController: _controller,
+                options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 2.0,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    }),
+              ),*/
+
+              /*Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: imgList.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => _controller.animateToPage(entry.key),
+                    child: Container(
+                      width: 12.0,
+                      height: 12.0,
+                      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (Theme.of(context).brightness == Brightness.dark
                               ? Colors.white
                               : Colors.black)
-                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                ),
-              );
-            }).toList(),
-          ),
+                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ]),*/
 
-          // Category(),
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "You may like",
-                  style: TextStyle(
-                    // letterSpacing: 10.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.pink,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    margin: const EdgeInsets.all(10.0),
-                    padding: const EdgeInsets.all(3.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blueAccent)),
-                    child: const Text(
-                      "View all",
-                      style: TextStyle(
-                        color: Colors.pink,
-                      ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .05,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "You may like",
+                    style: TextStyle(
+                      // letterSpacing: 10.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.pink,
                     ),
                   ),
-                )
-              ],
-            ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.blueAccent)),
+                      child: const Text(
+                        "View all",
+                        style: TextStyle(
+                          color: Colors.pink,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Container(
+                  height: 210,
+                  child: Expanded(child: ProductShow())),
+
+              SizedBox(
+                height: 10,
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

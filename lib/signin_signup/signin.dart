@@ -3,7 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/route_manager.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:spaicy_food/my_home_page.dart';
 import 'package:spaicy_food/signin_signup/firebase_reg.dart';
 import 'package:spaicy_food/signin_signup/forget_password.dart';
@@ -86,149 +85,159 @@ class _SigninState extends State<Signin> {
               ),
             ),
             Stack(alignment: Alignment.topRight, children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: small ? MediaQuery.of(context).size.width * 0.28 : 500,
-                alignment: Alignment.center,
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    InkWell(
-                      child: Container(
-                        child: const Align(
-                          alignment: Alignment.topLeft,
-                          child: const Icon(
-                            Icons.close,
-                            color: Colors.red,
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: small ? MediaQuery.of(context).size.width * 0.28 : 410,
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      InkWell(
+                        child: Container(
+                          child: const Align(
+                            alignment: Alignment.topLeft,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
+                        onTap: () {
+                          Get.off(const MyHomePage());
+                        },
                       ),
-                      onTap: () {
-                        Get.off(const MyHomePage());
-                      },
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(40.0),
-                      child: Form(
-                          key: formkey,
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              const Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Welcome',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              const SizedBox(
-                                height: 5.0,
-                              ),
-                              const Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'Sign in to continue!',
-                                    style: TextStyle(color: Colors.black45),
-                                  )),
-                              const SizedBox(
-                                height: 30.0,
-                              ),
-                              TextFormField(
-                                onChanged: (value) => email = value,
-                                validator: MultiValidator([
-                                  RequiredValidator(errorText: "Required"),
-                                  EmailValidator(errorText: "Not A Valid Email"),
-                                ]),
-                                decoration: const InputDecoration(
-                                    label: Text('Email'),
-                                    hintText: 'abc@gmail.com',
-                                    border: OutlineInputBorder()),
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              TextFormField(
-                                onChanged: (value) => password = value,
-                                controller: _pass,
-                                keyboardType: TextInputType.text,
-                                obscureText: _isObscure,
-                                validator: validatepass,
-                                decoration: InputDecoration(
-                                  label: const Text('Enter your password'),
-                                  hintText: "24688642",
-                                  border: const OutlineInputBorder(),
-                                  suffixIcon: IconButton(
-                                      icon: Icon(_isObscure
-                                          ? Icons.visibility
-                                          : Icons.visibility_off),
-                                      onPressed: () {
-                                        setState(() {
-                                          _isObscure = !_isObscure;
-                                        });
-                                      }),
+                      Container(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Form(
+                            key: formkey,
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 20.0,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 25.0,
-                              ),
-                              ElevatedButton(
-                                onPressed: validate,
-                                child: const Text(
-                                  'Sign in',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Welcome',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                const SizedBox(
+                                  height: 5.0,
+                                ),
+                                const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Sign in to continue!',
+                                      style: TextStyle(color: Colors.black45),
+                                    )),
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    FocusScopeNode currentFocus = FocusScope.of(context);
+                                    if(!currentFocus.hasPrimaryFocus){
+                                      FocusManager.instance.primaryFocus!.unfocus();
+                                    }
+                                    },
+                                  child: TextFormField(
+                                    onChanged: (value) => email = value,
+                                    validator: MultiValidator([
+                                      RequiredValidator(errorText: "Required"),
+                                      EmailValidator(errorText: "Not A Valid Email"),
+                                    ]),
+                                    decoration: const InputDecoration(
+                                        label: Text('Email'),
+                                        hintText: 'abc@gmail.com',
+                                        border: OutlineInputBorder()),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                    text: 'Forget password?',
-                                    style: const TextStyle(
-                                        color: Colors.black,),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                TextFormField(
+                                  onChanged: (value) => password = value,
+                                  controller: _pass,
+                                  keyboardType: TextInputType.text,
+                                  obscureText: _isObscure,
+                                  validator: validatepass,
+                                  decoration: InputDecoration(
+                                    label: const Text('Enter your password'),
+                                    hintText: "24688642",
+                                    border: const OutlineInputBorder(),
+                                    suffixIcon: IconButton(
+                                        icon: Icon(_isObscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off),
+                                        onPressed: () {
+                                          setState(() {
+                                            _isObscure = !_isObscure;
+                                          });
+                                        }),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 25.0,
+                                ),
+                                ElevatedButton(
+                                  onPressed: validate,
+                                  child: const Text(
+                                    'Sign in',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      text: 'Forget password?',
+                                      style: const TextStyle(
+                                          color: Colors.black,),
+                                      children: [
+                                        TextSpan(
+                                            text: ' Click here',
+                                            style: const TextStyle(
+                                              color: Colors.blue,
+                                            ),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                Get.to(const ForgetPassword());
+                                              })
+                                      ]),
+                                ),
+                                const SizedBox(height: 20),
+                                RichText(
+                                  text: TextSpan(
+                                    style: const TextStyle(color: Colors.black),
+                                    text: 'don\'t have an account?',
                                     children: [
                                       TextSpan(
-                                          text: ' Click here',
+                                          text: ' Sign up',
                                           style: const TextStyle(
                                             color: Colors.blue,
                                           ),
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              Get.to(const ForgetPassword());
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Signup()));
                                             })
-                                    ]),
-                              ),
-                              const SizedBox(height: 20),
-                              RichText(
-                                text: TextSpan(
-                                  style: const TextStyle(color: Colors.black),
-                                  text: 'don\'t have an account?',
-                                  children: [
-                                    TextSpan(
-                                        text: ' Sign up',
-                                        style: const TextStyle(
-                                          color: Colors.blue,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const Signup()));
-                                          })
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ],
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ])
