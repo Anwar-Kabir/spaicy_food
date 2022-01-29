@@ -3,10 +3,17 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+<<<<<<< HEAD
 import 'package:spaicy_food/view/category/category.dart';
 import 'package:spaicy_food/admin/image_upload/image_up/stroge.dart';
 import 'package:spaicy_food/admin/product_upload.dart';
  import 'package:spaicy_food/view/my_home_page.dart';
+=======
+import 'package:spaicy_food/category.dart';
+import 'package:spaicy_food/admin/image_upload/image_up/stroge.dart';
+import 'package:spaicy_food/admin/product_upload.dart';
+ import 'package:spaicy_food/my_home_page.dart';
+>>>>>>> origin/master
 
 import 'admin_slider.dart';
 
