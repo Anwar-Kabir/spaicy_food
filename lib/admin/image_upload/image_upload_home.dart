@@ -3,17 +3,10 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-<<<<<<< HEAD
-import 'package:spaicy_food/view/category/category.dart';
-import 'package:spaicy_food/admin/image_upload/image_up/stroge.dart';
+ import 'package:spaicy_food/admin/image_upload/image_up/stroge.dart';
 import 'package:spaicy_food/admin/product_upload.dart';
- import 'package:spaicy_food/view/my_home_page.dart';
-=======
-import 'package:spaicy_food/category.dart';
-import 'package:spaicy_food/admin/image_upload/image_up/stroge.dart';
-import 'package:spaicy_food/admin/product_upload.dart';
- import 'package:spaicy_food/my_home_page.dart';
->>>>>>> origin/master
+ import 'package:spaicy_food/view/category/category.dart';
+import 'package:spaicy_food/view/my_home_page.dart';
 
 import 'admin_slider.dart';
 
@@ -129,13 +122,13 @@ class _HomeState extends State<Home> {
                     color: Colors.black12,
                     child: image == null
                         ? Icon(
-                            Icons.image,
-                            size: 50,
-                          )
+                      Icons.image,
+                      size: 50,
+                    )
                         : Image.file(
-                            image!,
-                            fit: BoxFit.fill,
-                          )),
+                      image!,
+                      fit: BoxFit.fill,
+                    )),
                 ElevatedButton(
                     child: Text('pick image'),
                     onPressed: () {

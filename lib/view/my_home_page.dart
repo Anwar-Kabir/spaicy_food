@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:spaicy_food/admin/fmc_noti.dart';
-import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
+ import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
 import 'package:spaicy_food/view/search.dart';
-import 'package:spaicy_food/admin/firebase_notification.dart';
-import 'package:spaicy_food/view/bottom_navigation_bar/account.dart';
+ import 'package:spaicy_food/view/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/bottom_home.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/favorite.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/order.dart';
@@ -56,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }, icon: const Icon(Icons.message_outlined)),
               IconButton(
                 onPressed: () {
-                  Get.to(FMCNoti());
+                 // Get.to(FMCNoti());
                 },
                 icon: Stack(
                   children: <Widget>[
