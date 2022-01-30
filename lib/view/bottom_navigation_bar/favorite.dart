@@ -53,7 +53,7 @@ class _FavoriteState extends State<Favorite> {
                               title: Text(_documentSnapshot['name']),
                               subtitle:  Text('\$ ${_documentSnapshot['price']}'),
                               trailing: IconButton(
-                                icon: Icon(Icons.delete),
+                                icon: Icon(Icons.delete_forever,color: Colors.red,),
                                 onPressed: () {
                                   FirebaseFirestore.instance
                                       .collection("users-favourite-items")
