@@ -44,7 +44,9 @@ class _ProductShowState extends State<ProductShow> {
                                 width: 190,
                                 child: GestureDetector(
                                   onTap: (){
-                                    Get.to(ProductDetailes( ));
+                                    Get.to(ProductDetailes( productdetail: documentSnapshot.data()));
+                                    print(documentSnapshot.data());
+
                                   },
                                   child: Card(
                                     margin: const EdgeInsets.all(10),

@@ -6,7 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:spaicy_food/view/category/category.dart';
-import 'package:spaicy_food/view/chip_trending.dart';
+import 'package:spaicy_food/view/chip_home_top/chip_firebase_retrive.dart';
+import 'package:spaicy_food/view/chip_home_top/chip_trending.dart';
 import 'package:spaicy_food/view/product/product_show.dart';
 
 class BottomHome extends StatefulWidget {
@@ -17,17 +18,7 @@ class BottomHome extends StatefulWidget {
 }
 
 class _BottomHomeState extends State<BottomHome> {
-  int _selectedIndex = 0;
 
-  List<String> chip = [
-    'Kids',
-    'Woman',
-    'Man',
-    'Home',
-    'Education',
-    'Food',
-    'Deshi Product'
-  ];
 
   final CarouselController _controller = CarouselController();
 
@@ -77,33 +68,10 @@ class _BottomHomeState extends State<BottomHome> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    chip.length,
-                    (item) {
-                      return Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ChoiceChip(
-                            selected: _selectedIndex == item,
-                            label: Text(chip[item]),
-                            onSelected: (selected) {
-                              if (selected) {
-                                setState(() {
-                                  _selectedIndex = item;
-                                  Get.to(ChipTrending());
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+
+              ChipFirebaseRetrive(),
+
+
               Container(
                 height: MediaQuery.of(context).size.height * 0.30,
                 width: MediaQuery.of(context).size.width,

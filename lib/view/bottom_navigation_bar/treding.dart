@@ -33,37 +33,6 @@ class Treding extends StatelessWidget {
                   ),
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Last Weak top selling ",
-                      style: TextStyle(
-                        // letterSpacing: 10.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.pink,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        margin: const EdgeInsets.all(10.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blueAccent)),
-                        child: const Text(
-                          "View all",
-                          style: TextStyle(
-                            color: Colors.pink,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                    height: 210,
-                    child: Expanded(child: ProductShow())),
               ],
             ),
           ),
