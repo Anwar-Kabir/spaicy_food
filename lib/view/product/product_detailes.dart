@@ -93,6 +93,29 @@ class _ProductDetailesState extends State<ProductDetailes> {
               height: 120,
               width: 110,
               child: Image.network(widget.productdetail['img1'].toString())),
+          Container(
+            height: 50,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 5,
+                ),
+                Image.network(widget.productdetail['img1'].toString()),
+                SizedBox(
+                  width: 5,
+                ),
+                Image.network(widget.productdetail['img1'].toString()),
+                SizedBox(
+                  width: 5,
+                ),
+                Image.network(widget.productdetail['img1'].toString()),
+                SizedBox(
+                  width: 5,
+                ),
+                Image.network(widget.productdetail['img1'].toString())
+              ],
+            ),
+          ),
           Text(widget.productdetail['name'].toString()),
           Text(widget.productdetail['price'].toString()),
           Text(widget.productdetail['sku'].toString()),
@@ -155,7 +178,7 @@ class _ProductDetailesState extends State<ProductDetailes> {
                                   )
                                 : Icon(
                                     Icons.favorite,
-                              color: Colors.red,
+                                    color: Colors.red,
                                   ),
                             onPressed: () {
                               snapshot.data.docs.length == 0
@@ -193,10 +216,6 @@ class _ProductDetailesState extends State<ProductDetailes> {
                   },
                 ),
               ),
-
-
-
-
               Expanded(
                 child: SizedBox(
                   height: 50,

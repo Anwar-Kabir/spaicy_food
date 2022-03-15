@@ -11,8 +11,6 @@ class ProductShow extends StatefulWidget {
 }
 
 class _ProductShowState extends State<ProductShow> {
-
-
   final CollectionReference _productss =
       FirebaseFirestore.instance.collection('product_home');
 
@@ -25,13 +23,12 @@ class _ProductShowState extends State<ProductShow> {
             Container(
               height: 220,
               child: Column(
-                
                 children: [
                   Expanded(
                     child: StreamBuilder(
                       stream: _productss.snapshots(),
-                      builder:
-                          (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                         if (streamSnapshot.hasData) {
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
@@ -43,33 +40,43 @@ class _ProductShowState extends State<ProductShow> {
                                 height: 210,
                                 width: 190,
                                 child: GestureDetector(
-                                  onTap: (){
-                                    Get.to(ProductDetailes( productdetail: documentSnapshot.data()));
+                                  onTap: () {
+                                    Get.to(ProductDetailes(
+                                        productdetail:
+                                            documentSnapshot.data()));
                                     print(documentSnapshot.data());
-
                                   },
                                   child: Card(
                                     margin: const EdgeInsets.all(10),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                            height: 120,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                              height: 80,
+                                              child: Image.network(
+                                                  documentSnapshot['img1'])),
 
-                                            child: Image.network(documentSnapshot['img1'])),
-
-                                        Text("${documentSnapshot['name']}",
-                                          style: TextStyle(),),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text("${documentSnapshot['price'].toString()} \$",
-                                            style: TextStyle(color: Colors.redAccent),
-                                          textAlign: TextAlign.start,),
-                                        ),
-                                        //Text(" ${documentSnapshot['discount']} %"),
-                                        Align(
+                                          Text("${documentSnapshot['name']}",
+                                              style: TextStyle(),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 2),
+                                          Align(
                                             alignment: Alignment.centerLeft,
-                                            child: Text("Sku ${documentSnapshot['sku']}")),
-                                       ],
+                                            child: Text(
+                                              "${documentSnapshot['price'].toString()} \$",
+                                              style: TextStyle(
+                                                  color: Colors.redAccent),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                          ),
+                                          //Text(" ${documentSnapshot['discount']} %"),
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                  "Sku ${documentSnapshot['sku']}")),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

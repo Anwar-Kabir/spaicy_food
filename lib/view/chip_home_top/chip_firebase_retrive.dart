@@ -11,9 +11,8 @@ class ChipFirebaseRetrive extends StatefulWidget {
 }
 
 class _ChipFirebaseRetriveState extends State<ChipFirebaseRetrive> {
-
   final CollectionReference _chipfirebase =
-  FirebaseFirestore.instance.collection('chip_treading');
+      FirebaseFirestore.instance.collection('chip_treading');
 
   int _selectedIndex = 0;
 
@@ -24,7 +23,7 @@ class _ChipFirebaseRetriveState extends State<ChipFirebaseRetrive> {
         child: Column(
           children: [
             Container(
-              height: 80,
+              height: 50,
               child: Column(
                 children: [
                   Expanded(
@@ -38,12 +37,12 @@ class _ChipFirebaseRetriveState extends State<ChipFirebaseRetrive> {
                             itemCount: streamSnapshot.data!.docs.length,
                             itemBuilder: (context, index) {
                               final DocumentSnapshot documentSnapshot =
-                              streamSnapshot.data!.docs[index];
+                                  streamSnapshot.data!.docs[index];
                               return Row(
                                 children: [
                                   Column(
                                     children: [
-                                     // Text(documentSnapshot['name']),
+                                      // Text(documentSnapshot['name']),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: ChoiceChip(

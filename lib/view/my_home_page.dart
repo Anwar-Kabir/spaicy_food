@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
- import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
+import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
 import 'package:spaicy_food/view/search.dart';
- import 'package:spaicy_food/view/bottom_navigation_bar/account.dart';
+import 'package:spaicy_food/view/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/bottom_home.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/favorite.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/order.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/treding.dart';
 import 'package:spaicy_food/view/contact_us.dart';
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -30,7 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   initState() {
-    _title = 'Hitaishi - food';
+    _title = 'Begum Bazar';
   }
 
   @override
@@ -41,20 +40,20 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(_title),
             titleSpacing: 3.0,
             actions: [
-
               IconButton(
                 onPressed: () {
-                  Get.to( HomePage());
+                  Get.to(HomePage());
                 },
                 icon: const Icon(Icons.search),
               ),
               IconButton(
                   onPressed: () {
                     Get.to(ContactUs());
-                  }, icon: const Icon(Icons.message_outlined)),
+                  },
+                  icon: const Icon(Icons.message_outlined)),
               IconButton(
                 onPressed: () {
-                 // Get.to(FMCNoti());
+                  // Get.to(FMCNoti());
                 },
                 icon: Stack(
                   children: <Widget>[
@@ -77,13 +76,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-                
-
               ),
               IconButton(
                 onPressed: () {
-                  Get.off( Home());
-
+                  Get.off(Home());
                 },
                 icon: const Icon(Icons.account_box),
               ),

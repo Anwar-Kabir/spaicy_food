@@ -9,13 +9,12 @@ class AdminProductUpoad extends StatefulWidget {
 }
 
 class _AdminProductUpoadState extends State<AdminProductUpoad> {
-
   // text fields' controllers
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
   final CollectionReference _productss =
-  FirebaseFirestore.instance.collection('products');
+      FirebaseFirestore.instance.collection('products');
 
   // This function is triggered when the floatting button or one of the edit buttons is pressed
   // Adding a product if no documentSnapshot is passed
@@ -49,7 +48,7 @@ class _AdminProductUpoadState extends State<AdminProductUpoad> {
                 ),
                 TextField(
                   keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+                      const TextInputType.numberWithOptions(decimal: true),
                   controller: _priceController,
                   decoration: const InputDecoration(
                     labelText: 'Price',
@@ -63,7 +62,7 @@ class _AdminProductUpoadState extends State<AdminProductUpoad> {
                   onPressed: () async {
                     final String? name = _nameController.text;
                     final double? price =
-                    double.tryParse(_priceController.text);
+                        double.tryParse(_priceController.text);
                     if (name != null && price != null) {
                       if (action == 'create') {
                         // Persist a new product to Firestore
@@ -79,7 +78,6 @@ class _AdminProductUpoadState extends State<AdminProductUpoad> {
 
                       // Clear the text fields
                       _nameController.text = '';
-                      _priceController.text = '';
 
                       // Hide the bottom sheet
                       Navigator.of(context).pop();
@@ -101,7 +99,6 @@ class _AdminProductUpoadState extends State<AdminProductUpoad> {
         content: Text('You have successfully deleted a product')));
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,7 +114,7 @@ class _AdminProductUpoadState extends State<AdminProductUpoad> {
               itemCount: streamSnapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final DocumentSnapshot documentSnapshot =
-                streamSnapshot.data!.docs[index];
+                    streamSnapshot.data!.docs[index];
                 return Card(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(

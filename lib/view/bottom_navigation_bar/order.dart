@@ -2,9 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:spaicy_food/controller/increment_decrement.dart';
+import 'package:spaicy_food/view/checkout.dart';
+import 'package:spaicy_food/view/my_home_page.dart';
+import 'package:spaicy_food/view/signin_signup/signin.dart';
 
 class Order extends StatefulWidget {
   const Order({Key? key}) : super(key: key);
@@ -16,6 +22,26 @@ class Order extends StatefulWidget {
 class _OrderState extends State<Order> {
   int count = 1;
 
+  final GetIncrementDecrement abc = Get.put(GetIncrementDecrement());
+
+  @override
+  void initState() {
+    super.initState();
+    logincheck();
+  }
+
+  logincheck() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Get.off(const Signin());
+      } else {
+        print('User is signed in!');
+        Get.off(const MyHomePage());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,49 +50,29 @@ class _OrderState extends State<Order> {
           //Text(' Total product ${snapshot.data!.docs.length.toString()}'),
 
           children: [
-            Container(
-              padding: EdgeInsets.only(
-                left: 3,
-              ),
-              height: 60,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
-                elevation: 3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 3, top: 7, right: 6),
-                            width: 13,
-                            height: 15,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.green),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Deliver to NAME address line 1...',
-                                  style: TextStyle(fontSize: 15)),
-                              Text('click here to change address',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Colors.grey)),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Icon(Icons.keyboard_arrow_right),
-                  ],
+            SizedBox(
+              height: 10,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Shimmer.fromColors(
+                baseColor: Colors.red,
+                highlightColor: Colors.yellow,
+                child: const Text(
+                  'Use coupun & get 25% off',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
             Expanded(
+              flex: 3,
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("users-cart-items")
@@ -87,7 +93,12 @@ class _OrderState extends State<Order> {
                               snapshot.data!.docs[index];
                           return Column(
                             children: [
+                              /* Text(
+                                  ' Total product ${snapshot.data!.docs.length.toString()}'),
+                              Text(
+                                  ' Total Price ${_documentSnapshot['price'] * abc.val.value}'), */
                               Card(
+                                elevation: 3,
                                 child: ListTile(
                                   leading: Container(
                                       height: 120,
@@ -97,35 +108,26 @@ class _OrderState extends State<Order> {
                                   title: Text(_documentSnapshot['name']),
                                   subtitle: Row(
                                     children: [
-                                      Text("\$ ${_documentSnapshot['price']*count}"),
+                                      Obx(() => Text(
+                                          " ${_documentSnapshot['price']} x ${abc.val.value}   \$ ${_documentSnapshot['price'] * abc.val.value}")),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.09,
                                       ),
                                       IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              if (count > 1) {
-                                                count--;
-                                              }
-                                            });
-                                          },
+                                          onPressed: () => abc.add(),
+                                          icon: Icon(
+                                            Icons.add_circle_outline,
+                                            color: Colors.green,
+                                          )),
+                                      Obx(() => Text(abc.val.toString())),
+                                      IconButton(
+                                          onPressed: () => abc.minus(),
                                           icon: Icon(
                                             Icons.remove_circle_outline,
                                             color: Colors.red,
                                           )),
-                                      Text(count.toString()),
-                                      IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              count++;
-                                            });
-                                          },
-                                          icon: Icon(
-                                            Icons.add_circle_outline,
-                                            color: Colors.green,
-                                          ))
                                     ],
                                   ),
                                   trailing: IconButton(
@@ -160,8 +162,9 @@ class _OrderState extends State<Order> {
                         });
                   }),
             ),
-            Container(
-                height: 100,
+
+            /*Container(
+                height: 50,
                 padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,22 +176,73 @@ class _OrderState extends State<Order> {
                           labelText: 'Promo Code',
                         ),
                       ),
-                    ])),
-            SizedBox(
-              height: 50,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18)),
-                ),
-                onPressed: () {},
-                child: Text(
-                  "Buy  Now".toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    ])),*/
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                margin: const EdgeInsets.all(8),
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                child: Container(
+                  margin: const EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          /* Text(
+                            "${abc.addFire().data!.docs.length.toString()}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ), */
+                          Text(
+                            "Total Item",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: const [
+                          Text(
+                            "\$ 567",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Total Amount",
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 50,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)),
+                          ),
+                          onPressed: () {
+                            Get.to(CheckOut());
+                          },
+                          child: Text(
+                            "Check Out".toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

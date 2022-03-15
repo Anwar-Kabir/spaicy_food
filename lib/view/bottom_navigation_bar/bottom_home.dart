@@ -18,8 +18,6 @@ class BottomHome extends StatefulWidget {
 }
 
 class _BottomHomeState extends State<BottomHome> {
-
-
   final CarouselController _controller = CarouselController();
 
   FirebaseStorage storage = FirebaseStorage.instance;
@@ -68,10 +66,7 @@ class _BottomHomeState extends State<BottomHome> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-
               ChipFirebaseRetrive(),
-
-
               Container(
                 height: MediaQuery.of(context).size.height * 0.30,
                 width: MediaQuery.of(context).size.width,
@@ -92,7 +87,7 @@ class _BottomHomeState extends State<BottomHome> {
                             height: MediaQuery.of(context).size.height * 0.30,
                             width: MediaQuery.of(context).size.width,
                             child: Padding(
-                              padding: const EdgeInsets.all(30.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Image.network(image['url']),
                             ),
                           );
@@ -150,7 +145,7 @@ class _BottomHomeState extends State<BottomHome> {
             ]),*/
 
               SizedBox(
-                height: MediaQuery.of(context).size.height * .05,
+                height: MediaQuery.of(context).size.height * .002,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

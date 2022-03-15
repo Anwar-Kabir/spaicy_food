@@ -29,10 +29,10 @@ class _AccountState extends State<Account> {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         print('User is currently signed out!');
-        Get.off(Signin());
+        Get.off(const Signin());
       } else {
         print('User is signed in!');
-        Get.off(MyHomePage());
+        Get.off(const MyHomePage());
       }
     });
   }
@@ -54,27 +54,25 @@ class _AccountState extends State<Account> {
   }
 
   delay() async {
-    await Future.delayed(Duration(seconds: 5), () {
+    await Future.delayed(const Duration(seconds: 5), () {
       print(" This line is execute after 3 seconds");
-      CircularProgressIndicator();
+      const CircularProgressIndicator();
       setState(() {
         loading = true;
       });
     });
   }
 
-
-
   signOut() async {
     await FirebaseAuth.instance.signOut();
-    Get.off(MyHomePage());
+    Get.off(const MyHomePage());
     Get.snackbar(
       "hitaishi-food",
       "User Sign out Successful",
       // icon: Icon(Icons.person, color: Colors.red),
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.green,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     );
   }
 
@@ -83,50 +81,100 @@ class _AccountState extends State<Account> {
     //return  Center(child: CircularProgressIndicator());
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Center(child: Text("No Account")),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Center(child: Text("No Account")),
 
-          /* FutureBuilder(
-              future: delaymm(),
-              builder: (context, snapshot) {
-              if (loading == false) {
-              return CircularProgressIndicator();
-              } else {
-              if (snapshot.hasData == false) {
-              return CircularProgressIndicator();
-              } else {
-              return Expanded(
-              child: Container()
-              );
-              }
-              }
-              });*/
+            /* FutureBuilder(
+                future: delaymm(),
+                builder: (context, snapshot) {
+                if (loading == false) {
+                return CircularProgressIndicator();
+                } else {
+                if (snapshot.hasData == false) {
+                return CircularProgressIndicator();
+                } else {
+                return Expanded(
+                child: Container()
+                );
+                }
+                }
+                });*/
 
-         /* Container(
-            child: loading ? delay() : logincheck(),
+            /* Container(
+              child: loading ? delay() : logincheck(),
 
-          ),*/
+            ),*/
 
-          Container(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.grey,
-              color: Colors.purple,
-              strokeWidth: 10,
+            const ListTile(
+              leading: CircleAvatar(
+                backgroundImage: AssetImage(
+                    "assets/images/nointernet.png"), // no matter how big it is, it won't overflow
+              ),
+              title: Text("Anwar Kabir"),
+              subtitle: Text(
+                "anwarkabir1994@gmail.com",
+                style: TextStyle(color: Colors.black54),
+              ),
             ),
-          ),
 
-          SizedBox(
-            height: 30,
-          ),
+            const ListTile(
+                title: Text("My ordrs"),
+                subtitle: Text(
+                  "already have 12 orders",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
 
-          //Text('User email: ${FirebaseAuth.instance.currentUser!.email}'),
+            const ListTile(
+                title: Text("Shipping address"),
+                subtitle: Text(
+                  "already have 12 orders",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
 
-          Row(
-            children: [
-              const Text('Night Mood?'),
-              Switch(
+            const ListTile(
+                title: Text("Payment method"),
+                subtitle: Text(
+                  "visa **34",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
+
+            const ListTile(
+                title: Text("Promo codes"),
+                subtitle: Text(
+                  "You have specil promo code",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
+
+            const ListTile(
+                title: Text("My reviews"),
+                subtitle: Text(
+                  "Reviews for 4 items",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
+
+            const ListTile(
+                title: Text("Recently views product "),
+                subtitle: Text(
+                  "Recently views 9 items",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios)),
+
+            ListTile(
+              title: Text("Night mood"),
+              subtitle: const Text(
+                "Active night mood",
+                style: TextStyle(color: Colors.black54),
+              ),
+              trailing: Switch(
                   value: nightmood,
                   onChanged: (value) {
                     setState(() {
@@ -136,44 +184,54 @@ class _AccountState extends State<Account> {
                           : Get.changeTheme(ThemeData.dark());
                     });
                   }),
-            ],
-          ),
+            ),
 
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-          ),
-
-          ElevatedButton(
-              onPressed: () {
-                const url = 'https://play.google.com/store';
-                launchURL(url);
-              },
-              child: Text("Review or  rate us on Play Stote or App Store")),
-
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-          ),
-
-          ElevatedButton(
-              onPressed: share,
-              child: Text("Share this app with your friends and family")),
-
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-          ),
-
-          Center(
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red, // background
-                  onPrimary: Colors.yellow, // foreground
+            const ListTile(
+                title: Text("Settings"),
+                subtitle: Text(
+                  "Notification, password",
+                  style: TextStyle(color: Colors.black54),
                 ),
-                onPressed: () {
-                  signOut();
-                },
-                child: Text("Sign out")),
-          ),
-        ],
+                trailing: Icon(Icons.arrow_forward_ios)),
+
+            ListTile(
+                title: Text("Rate us"),
+                subtitle: Text(
+                  "On play store or App store",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing: GestureDetector(
+                    onTap: () {
+                      const url = 'https://play.google.com/store';
+                      launchURL(url);
+                    },
+                    child: Icon(Icons.rate_review))),
+
+            ListTile(
+                title: Text("Share this app"),
+                subtitle: Text(
+                  "With your family and friends",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing:
+                    GestureDetector(onTap: share, child: Icon(Icons.share))),
+
+            ListTile(
+                title: Text("Log out"),
+                subtitle: Text(
+                  "Click me to log out",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                trailing:
+                    GestureDetector(onTap: signOut, child: Icon(Icons.logout,color: Colors.red,))),
+
+            //Text('User email: ${FirebaseAuth.instance.currentUser!.email}'),
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+          ],
+        ),
       ),
     );
   }

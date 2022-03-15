@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+import 'package:spaicy_food/view/my_home_page.dart';
 import 'package:spaicy_food/view/product/product_show.dart';
+import 'package:spaicy_food/view/signin_signup/signin.dart';
 
 class Favorite extends StatefulWidget {
   const Favorite({Key? key}) : super(key: key);
@@ -15,6 +17,24 @@ class Favorite extends StatefulWidget {
 }
 
 class _FavoriteState extends State<Favorite> {
+  @override
+  void initState() {
+    super.initState();
+    logincheck();
+  }
+
+  logincheck() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        Get.off(const Signin());
+      } else {
+        print('User is signed in!');
+        Get.off(const MyHomePage());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +49,8 @@ class _FavoriteState extends State<Favorite> {
                   .doc(FirebaseAuth.instance.currentUser!.email)
                   .collection("items")
                   .snapshots(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.hasError) {
                   return Center(
                     child: Text("Some thing is Wrong"),
@@ -51,9 +72,13 @@ class _FavoriteState extends State<Favorite> {
                                   child: Image.network(
                                       _documentSnapshot['images'])),
                               title: Text(_documentSnapshot['name']),
-                              subtitle:  Text('\$ ${_documentSnapshot['price']}'),
+                              subtitle:
+                                  Text('\$ ${_documentSnapshot['price']}'),
                               trailing: IconButton(
-                                icon: Icon(Icons.delete_forever,color: Colors.red,),
+                                icon: Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.red,
+                                ),
                                 onPressed: () {
                                   FirebaseFirestore.instance
                                       .collection("users-favourite-items")
