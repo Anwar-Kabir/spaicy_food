@@ -6,18 +6,18 @@ What have in this e-commerce flutter apps -
 
 # Screens it contains:
 
-Onboarding
-Login
-Forgot Password
-Sign Up
-Complete Profile
-OTP Verification
-Home Page
-Product Details
-Order
-Bottom Navigation Bar
-Firebase database
-Add product
+Onboarding,
+Login,
+Forgot Password,
+Sign Up,
+Complete Profile,
+OTP Verification,
+Home Page,
+Product Details,
+Order,
+Bottom Navigation Bar,
+Firebase database,
+Add product,
 Delete product,
 Edit product,
 Admin dashboard.
