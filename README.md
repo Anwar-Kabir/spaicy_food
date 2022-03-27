@@ -4,9 +4,25 @@ e-commerce apps in flutter apps. supported on Android, iOS & web.
 
 What have in this e-commerce flutter apps -
 
-firebase database,  add product, delete product, edit product, admin dashboard. 
+# Screens it contains:
 
-Screenshort 
+Onboarding
+Login
+Forgot Password
+Sign Up
+Complete Profile
+OTP Verification
+Home Page
+Product Details
+Order
+Bottom Navigation Bar
+Firebase database
+Add product
+Delete product,
+Edit product,
+Admin dashboard.
+
+# Photo
 
 ![home](https://user-images.githubusercontent.com/19724239/160268389-48530a36-6453-49ee-bc21-4dee8f88b152.PNG)
 ![fav](https://user-images.githubusercontent.com/19724239/160268520-9db7e1b7-5afe-4ca8-9197-3741c573f959.PNG)
