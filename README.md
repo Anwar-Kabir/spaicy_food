@@ -1,16 +1,36 @@
 # spaicy_food
 
-A new Flutter project. Online food delivary flutter apps. supported on Android, iOS & website.
+e-commerce apps in flutter apps. supported on Android, iOS & web.
 
-## Getting Started
+What have in this e-commerce flutter apps -
 
-This project is a starting point for a Flutter application.
+# Screens it contains:
 
-A few resources to get you started if this is your first Flutter project:
+Onboarding,
+Login,
+Forgot Password,
+Sign Up,
+Complete Profile,
+OTP Verification,
+Home Page,
+Product Details,
+Order,
+Bottom Navigation Bar,
+Firebase database,
+Add product,
+Delete product,
+Edit product,
+Admin dashboard.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# Photo
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![home](https://user-images.githubusercontent.com/19724239/160268389-48530a36-6453-49ee-bc21-4dee8f88b152.PNG)
+![fav](https://user-images.githubusercontent.com/19724239/160268520-9db7e1b7-5afe-4ca8-9197-3741c573f959.PNG)
+![order](https://user-images.githubusercontent.com/19724239/160268645-7d71af4f-9224-4f42-b2ca-42e60cea4a14.PNG)
+![account](https://user-images.githubusercontent.com/19724239/160268649-64513891-ad83-4554-8d71-50ade395d87d.PNG)
+![contact](https://user-images.githubusercontent.com/19724239/160268652-7ff4bcc0-bbee-47ac-a6eb-f184657a1ded.PNG)
+![admin](https://user-images.githubusercontent.com/19724239/160268656-f0f6fa64-918d-4f6c-aaca-aefdb0343d59.PNG)
+![category](https://user-images.githubusercontent.com/19724239/160268661-be9d6b89-06dc-4ccb-9797-898834c918d9.PNG)
+
+
+
