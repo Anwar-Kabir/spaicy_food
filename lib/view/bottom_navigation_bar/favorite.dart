@@ -52,58 +52,57 @@ class _FavoriteState extends State<Favorite> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
                 if (snapshot.hasError) {
-                  return Center(
-                    child: Text("Some thing is Wrong"),
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
 
                 return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (_, index) {
-                      DocumentSnapshot _documentSnapshot =
-                          snapshot.data!.docs[index];
-                      return Column(
-                        children: [
-                          Card(
-                            child: ListTile(
-                              leading: Container(
-                                  height: 120,
-                                  width: 90,
-                                  child: Image.network(
-                                      _documentSnapshot['images'])),
-                              title: Text(_documentSnapshot['name']),
-                              subtitle:
-                                  Text('\$ ${_documentSnapshot['price']}'),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.delete_forever,
-                                  color: Colors.red,
-                                ),
-                                onPressed: () {
-                                  FirebaseFirestore.instance
-                                      .collection("users-favourite-items")
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.email)
-                                      .collection("items")
-                                      .doc(_documentSnapshot.id)
-                                      .delete();
-
-                                  Get.snackbar(
-                                    "hitaishi-food",
-                                    "Delete, Product from cart Successful",
-                                    icon:
-                                        Icon(Icons.person, color: Colors.green),
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: Colors.green,
-                                    duration: Duration(seconds: 3),
-                                  );
-                                },
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (_, index) {
+                    DocumentSnapshot _documentSnapshot =
+                        snapshot.data!.docs[index];
+                    return Column(
+                      children: [
+                        Card(
+                          child: ListTile(
+                            leading: Container(
+                                height: 120,
+                                width: 90,
+                                child:
+                                    Image.network(_documentSnapshot['images'])),
+                            title: Text(_documentSnapshot['name']),
+                            subtitle: Text('\$ ${_documentSnapshot['price']}'),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.delete_forever,
+                                color: Colors.red,
                               ),
+                              onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection("users-favourite-items")
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser!.email)
+                                    .collection("items")
+                                    .doc(_documentSnapshot.id)
+                                    .delete();
+
+                                Get.snackbar(
+                                  "hitaishi-food",
+                                  "Delete, Product from cart Successful",
+                                  icon: Icon(Icons.person, color: Colors.green),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.green,
+                                  duration: Duration(seconds: 3),
+                                );
+                              },
                             ),
                           ),
-                        ],
-                      );
-                    });
+                        ),
+                      ],
+                    );
+                  },
+                );
               }),
         ),
 

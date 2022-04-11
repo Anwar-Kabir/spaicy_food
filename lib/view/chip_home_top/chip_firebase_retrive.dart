@@ -46,6 +46,9 @@ class _ChipFirebaseRetriveState extends State<ChipFirebaseRetrive> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: ChoiceChip(
+                                          autofocus: true,
+                                          side: BorderSide(color: Colors.green),
+                                          selectedColor: Colors.red,
                                           selected: _selectedIndex == index,
                                           label: Text(documentSnapshot['name']),
                                           onSelected: (selected) {

@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,6 +8,9 @@ import 'package:spaicy_food/view/category/category.dart';
 import 'package:spaicy_food/view/chip_home_top/chip_firebase_retrive.dart';
 import 'package:spaicy_food/view/chip_home_top/chip_trending.dart';
 import 'package:spaicy_food/view/product/product_show.dart';
+import 'package:flutter_carousel_slider/carousel_slider.dart';
+import 'package:flutter_carousel_slider/carousel_slider_indicators.dart';
+import 'package:flutter_carousel_slider/carousel_slider_transforms.dart';
 
 class BottomHome extends StatefulWidget {
   const BottomHome({Key? key}) : super(key: key);
@@ -18,8 +20,6 @@ class BottomHome extends StatefulWidget {
 }
 
 class _BottomHomeState extends State<BottomHome> {
-  final CarouselController _controller = CarouselController();
-
   FirebaseStorage storage = FirebaseStorage.instance;
 
   Future<List<Map<String, dynamic>>> _loadImages() async {
@@ -39,6 +39,9 @@ class _BottomHomeState extends State<BottomHome> {
 
     return files;
   }
+
+  final CollectionReference _category =
+      FirebaseFirestore.instance.collection('slider');
 
   Future<List<Map<String, dynamic>>> _loadcategory() async {
     List<Map<String, dynamic>> files = [];
@@ -67,7 +70,7 @@ class _BottomHomeState extends State<BottomHome> {
           child: Column(
             children: [
               ChipFirebaseRetrive(),
-              Container(
+              /*  Container(
                 height: MediaQuery.of(context).size.height * 0.30,
                 width: MediaQuery.of(context).size.width,
                 child: FutureBuilder(
@@ -75,7 +78,29 @@ class _BottomHomeState extends State<BottomHome> {
                   builder: (context,
                       AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      return ListView.builder(
+                      return CarouselSlider.builder(
+                        slideBuilder: (index) {
+                          final Map<String, dynamic> image =
+                              snapshot.data![index];
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.30,
+                            width: MediaQuery.of(context).size.width,
+                            child: Image.network(image['url']),
+                          );
+                        },
+                        itemCount: snapshot.data!.length,
+                        slideTransform: CubeTransform(
+                          rotationAngle: 0,
+                        ),
+                        autoSliderDelay: Duration(seconds: 1),
+                        enableAutoSlider: true,
+                        slideIndicator: CircularSlideIndicator(
+                          indicatorBackgroundColor: Colors.red,
+                          currentIndicatorColor: Colors.green,
+                        ),
+                      );
+
+                      /* return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: snapshot.data?.length ?? 0,
                         itemBuilder: (context, index) {
@@ -92,7 +117,7 @@ class _BottomHomeState extends State<BottomHome> {
                             ),
                           );
                         },
-                      );
+                      ); */
                     }
 
                     return const Center(
@@ -100,53 +125,66 @@ class _BottomHomeState extends State<BottomHome> {
                     );
                   },
                 ),
+              ), */
+              Container(
+                height: MediaQuery.of(context).size.height * 0.25,
+                width: MediaQuery.of(context).size.width * 50,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: StreamBuilder(
+                        stream: _category.snapshots(),
+                        builder: (context,
+                            AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                          if (streamSnapshot.hasData) {
+                            return CarouselSlider.builder(
+                              slideBuilder: (index) {
+                                final DocumentSnapshot documentSnapshot =
+                                    streamSnapshot.data!.docs[index];
+
+                                return Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: FittedBox(
+                                        fit: BoxFit.fitWidth,
+                                        child: Image.network(
+                                            documentSnapshot['image'])),
+                                  ),
+                                );
+                              },
+                              itemCount: streamSnapshot.data!.docs.length,
+                              slideTransform: CubeTransform(
+                                rotationAngle: 0,
+                              ),
+                              autoSliderDelay: Duration(seconds: 3),
+                              unlimitedMode: true,
+                              enableAutoSlider: true,
+                              slideIndicator: CircularSlideIndicator(
+                                indicatorBackgroundColor: Colors.red,
+                                currentIndicatorColor: Colors.green,
+                              ),
+                            );
+                          }
+
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Container(
-                  height: 80,
+                  height: 98,
                   child: Column(
                     children: [
                       Expanded(child: Category()),
                     ],
                   )),
-
-              /*CarouselSlider(
-                items: imageSliders,
-                carouselController: _controller,
-                options: CarouselOptions(
-                    autoPlay: true,
-                    enlargeCenterPage: true,
-                    aspectRatio: 2.0,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _current = index;
-                      });
-                    }),
-              ),*/
-
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: imgList.asMap().entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () => _controller.animateToPage(entry.key),
-                    child: Container(
-                      width: 12.0,
-                      height: 12.0,
-                      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black)
-                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ]),*/
-
-              SizedBox(
-                height: MediaQuery.of(context).size.height * .002,
-              ),
+              /*  SizedBox(
+                height: MediaQuery.of(context).size.height * .022,
+              ), */
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -176,7 +214,7 @@ class _BottomHomeState extends State<BottomHome> {
                 ],
               ),
               Container(
-                  height: 210,
+                  height: 220,
                   child: Column(
                     children: [
                       Expanded(child: ProductShow()),

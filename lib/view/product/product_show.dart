@@ -17,85 +17,82 @@ class _ProductShowState extends State<ProductShow> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 220,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: StreamBuilder(
-                      stream: _productss.snapshots(),
-                      builder: (context,
-                          AsyncSnapshot<QuerySnapshot> streamSnapshot) {
-                        if (streamSnapshot.hasData) {
-                          return ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: streamSnapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              final DocumentSnapshot documentSnapshot =
-                                  streamSnapshot.data!.docs[index];
-                              return Container(
-                                height: 210,
-                                width: 190,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(ProductDetailes(
-                                        productdetail:
-                                            documentSnapshot.data()));
-                                    print(documentSnapshot.data());
-                                  },
-                                  child: Card(
-                                    margin: const EdgeInsets.all(10),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              height: 80,
-                                              child: Image.network(
-                                                  documentSnapshot['img1'])),
+      child: Column(
+        children: [
+          Container(
+            height: 220,
+            child: Column(
+              children: [
+                Expanded(
+                  child: StreamBuilder(
+                    stream: _productss.snapshots(),
+                    builder:
+                        (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+                      if (streamSnapshot.hasData) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: streamSnapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            final DocumentSnapshot documentSnapshot =
+                                streamSnapshot.data!.docs[index];
+                            return Container(
+                              height: 210,
+                              width: 190,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(ProductDetailes(
+                                      productdetail: documentSnapshot.data()));
+                                  print(documentSnapshot.data());
+                                },
+                                child: Card(
+                                  margin: const EdgeInsets.all(10),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                            height: 80,
+                                            child: Image.network(
+                                                documentSnapshot['img1'])),
 
-                                          Text("${documentSnapshot['name']}",
-                                              style: TextStyle(),
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2),
-                                          Align(
+                                        Text("${documentSnapshot['name']}",
+                                            style: TextStyle(),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            "${documentSnapshot['price'].toString()} \$",
+                                            style: TextStyle(
+                                                color: Colors.redAccent),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                        //Text(" ${documentSnapshot['discount']} %"),
+                                        Align(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
-                                              "${documentSnapshot['price'].toString()} \$",
-                                              style: TextStyle(
-                                                  color: Colors.redAccent),
-                                              textAlign: TextAlign.start,
-                                            ),
-                                          ),
-                                          //Text(" ${documentSnapshot['discount']} %"),
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                  "Sku ${documentSnapshot['sku']}")),
-                                        ],
-                                      ),
+                                                "Sku ${documentSnapshot['sku']}")),
+                                      ],
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        }
-
-                        return const Center(
-                          child: SizedBox(),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    ),
+                      }
+
+                      return const Center(
+                        child: SizedBox(),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

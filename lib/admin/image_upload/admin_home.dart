@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:spaicy_food/admin/admin_product.dart';
+import 'package:spaicy_food/admin/category/admin_category.dart';
 import 'package:spaicy_food/admin/chip.dart';
 import 'package:spaicy_food/admin/image_upload/image_up/stroge.dart';
 import 'package:spaicy_food/admin/product_upload.dart';
@@ -76,20 +78,22 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(AdminProduct());
+                  },
                   child: const Card(
                     elevation: 5,
                     child: ListTile(
                       leading: Icon(Icons.image),
-                      title: Text('Image upload'),
-                      subtitle: Text('Firebase image upload from web'),
+                      title: Text('Product upload'),
+                      subtitle: Text('Firebase Product upload from web'),
                       trailing: Icon(Icons.arrow_right),
                     ),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(Category());
+                    Get.to(AdminCategory());
                   },
                   child: const Card(
                     elevation: 5,

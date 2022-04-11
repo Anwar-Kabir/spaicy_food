@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
+import 'package:spaicy_food/admin/image_upload/admin_home.dart';
 import 'package:spaicy_food/view/search.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/account.dart';
 import 'package:spaicy_food/view/bottom_navigation_bar/bottom_home.dart';

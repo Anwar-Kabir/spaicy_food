@@ -81,8 +81,8 @@ class _OrderState extends State<Order> {
                       .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasError) {
-                      return Center(
-                        child: Text("Some thing is Wrong"),
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
                     }
 

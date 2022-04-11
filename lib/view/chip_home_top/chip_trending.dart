@@ -8,11 +8,17 @@ class ChipTrending extends StatefulWidget {
 }
 
 class _ChipTrendingState extends State<ChipTrending> {
+  // define a string variable
+  late String name;
+
+  // create a constructor
+  //ChipTrending(this.name);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chip Trending"),
+        title: Text(name),
       ),
     );
   }

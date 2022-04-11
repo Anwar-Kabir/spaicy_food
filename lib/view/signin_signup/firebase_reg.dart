@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:spaicy_food/admin/image_upload/image_upload_home.dart';
- import 'package:spaicy_food/view/my_home_page.dart';
+import 'package:spaicy_food/admin/image_upload/admin_home.dart';
+import 'package:spaicy_food/view/my_home_page.dart';
 import 'package:spaicy_food/view/signin_signup/signin.dart';
 
 signup(String email, String password) async {
@@ -63,7 +63,7 @@ signin(String email, String password) async {
 
     print("..........sign in success......");
 
-   /* FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    /* FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         print('User is currently signed out!');
         Get.off(Signin());
